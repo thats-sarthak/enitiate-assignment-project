@@ -2,9 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const hi = () => {
-    console.log('hi');
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white">
@@ -30,7 +27,6 @@ const Login = () => {
         <input type ="checkbox" className='text-white' />
         <label className='ml-2'>I agree to the Terms & Conditions</label>
         <button
-          onClick={hi}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full mt-8"
         >
           Sign In
