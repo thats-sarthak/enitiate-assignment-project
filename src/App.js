@@ -1,34 +1,54 @@
+import React, { useEffect, useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "./firebase";
+
+// Import your pages/components
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { Route, Routes } from "react-router-dom";
 import Posts from "./pages/Posts";
-import { getDatabase, ref, set  } from "firebase/database";
-import {app} from "./firebase"
 
-const db = getDatabase(app)
-
+const auth = getAuth(app);
 
 function App() {
- 
-  const pushData = () => {
-    set(ref(db, 'users/sarthak'), {
-      id:1,
-      name:"Sarthak",
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("You are logged in", user);
+        setUser(user);
+      } else {
+        console.log("Logged Out");
+        setUser(null);
+      }
     });
-  };
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <div >
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/posts" element={<Posts />} />
+      {user ? (
+        // If the user is logged in, show the Posts component
+        <Route path="/posts" element={<Posts />} />
+      ) : (
+        // If the user is not logged in, show the Home, Login, and Signup routes
+        <>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          {/* Redirect to home if trying to access other routes while not logged in */}
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        </>
+      )}
     </Routes>
-   
-    </div>
   );
 }
 
 export default App;
+
+
+
