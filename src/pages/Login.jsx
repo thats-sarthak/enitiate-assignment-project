@@ -1,26 +1,44 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const auth = getAuth(app);
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const signInUser = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        console.log("SignIn Success");
+  const signInUser = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('SignIn Success');
+  
+      // Display success toast
+      toast.success('Login successful!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+  
+      // Delay navigation to allow the user to see the toast
+      setTimeout(() => {
         // Redirect to the Posts component after successful login
         navigate('/posts');
-      })
-      .catch((error) => {
-        console.log(error);
+      }, 1000); // Adjust the delay time as needed
+    } catch (error) {
+      console.log(error);
+  
+      // Display error toast
+      toast.error('Login failed. Please check your credentials.', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
       });
-  }
+    }
+  };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white">
@@ -55,9 +73,14 @@ const Login = () => {
         >
           Sign In
         </button>
+
+        {/* Toast container for displaying notifications */}
+        <ToastContainer />
       </div>
     </div>
   );
 };
 
 export default Login;
+
+

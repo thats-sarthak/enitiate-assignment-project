@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { app } from '../firebase';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
   const auth = getAuth(app);
 
@@ -17,11 +20,23 @@ import { app } from '../firebase';
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log('Signup successful!', userCredential.user);
 
+        toast.success('SignUp successful!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+
+
         // Use navigate to redirect to the Posts page after successful signup
-        navigate('/posts');
+        // navigate('/posts');
+
+        setTimeout(() => {
+          // Use navigate to redirect to the Posts page after successful signup
+          navigate('/posts');
+        }, 1000);
       } catch (error) {
         console.error('Error signing up:', error.message);
         setError(error.message);
+
       }
     };
 
@@ -58,6 +73,7 @@ import { app } from '../firebase';
           >
             Sign Up
           </button>
+          <ToastContainer />
 
           <h1 className="mt-5">
             Already have an account ?
