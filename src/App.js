@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "./firebase";
 
-// Import your pages/components
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -25,7 +25,7 @@ function App() {
       }
     });
 
-    // Clean up the subscription when the component unmounts
+
     return () => unsubscribe();
   }, []);
 
@@ -40,8 +40,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          {/* Redirect to home if trying to access other routes while not logged in */}
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </>
       )}
     </Routes>
