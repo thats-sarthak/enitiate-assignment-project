@@ -80,10 +80,10 @@ const Posts = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="flex flex-col md:flex-row justify-center mt-4">
         <button
           onClick={prevPage}
-          className={`mx-2 px-3 py-1 rounded-full ${
+          className={`mx-2 my-2 md:my-0 px-3 py-1 rounded-full ${
             currentPage === 1 ? 'bg-gray-300' : 'bg-blue-500 text-white'
           }`}
           disabled={currentPage === 1}
@@ -94,7 +94,7 @@ const Posts = () => {
           <button
             key={index}
             onClick={() => paginate(index + 1)}
-            className={`mx-2 px-3 py-1 rounded-full ${
+            className={`mx-2 my-2 md:my-0 px-3 py-1 rounded-full ${
               currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300'
             }`}
           >
@@ -103,7 +103,7 @@ const Posts = () => {
         ))}
         <button
           onClick={nextPage}
-          className={`mx-2 px-3 py-1 rounded-full ${
+          className={`mx-2 my-2 md:my-0 px-3 py-1 rounded-full ${
             currentPage === Math.ceil(data.length / postsPerPage)
               ? 'bg-gray-300'
               : 'bg-blue-500 text-white'
