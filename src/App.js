@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("You are logged in", user);
+        console.log("You are logged in");
         setUser(user);
       } else {
         console.log("Logged Out");
